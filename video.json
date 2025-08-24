@@ -25,9 +25,9 @@
     {
       "id": "v004",
       "title": "Video Sample 2",
-      "src": "https://cdn.example.com/videos/sample2.mp4",
-      "thumbnail": "https://cdn.example.com/thumbs/sample2.jpg",
-      "author": "Studio D"
+      "embed": "https://dood.yt/e/7lggunnsqe5a",
+      "thumbnail": "Img4.jpg",
+      "author": "XXX"
     },
     {
       "id": "v005",
