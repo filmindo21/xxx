@@ -29,7 +29,16 @@
       cursor:pointer; transition:0.2s;
     }
     .rec:hover { transform:scale(1.03); }
-    .thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+
+    /* Ukuran poster fix */
+    .thumb {
+      width:100%;
+      height:270px;          /* tinggi fix */
+      object-fit: cover;     /* crop sesuai rasio */
+      display:block;
+      border-radius:6px;
+    }
+
     /* Disembunyikan agar hanya poster yang tampil */
     .rec-title { display:none; }
     .controls { text-align:center; margin-top:12px; }
