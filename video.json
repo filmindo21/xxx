@@ -1,7 +1,15 @@
 {
   "siteName": "Lokal Jaya",
   "videos": [
+
     
+    {
+      "id": "v012",
+      "title": "Video Sample 10",
+      "src": "https://cdn.example.com/videos/sample9.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample9.jpg",
+      "author": "Studio z"
+    }, 
     {
       "id": "v001",
       "title": "Bu Dosen Muda Cantik Ngewe di Hotel",
@@ -78,13 +86,6 @@
       "src": "https://cdn.example.com/videos/sample9.mp4",
       "thumbnail": "https://cdn.example.com/thumbs/sample9.jpg",
       "author": "Studio K"
-    }
-    {
-      "id": "v012",
-      "title": "Video Sample 10",
-      "src": "https://cdn.example.com/videos/sample9.mp4",
-      "thumbnail": "https://cdn.example.com/thumbs/sample9.jpg",
-      "author": "Studio z"
     }
   ]
 }
