@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nama Website - Pemutar Video</title>
+  <style>
+    body {
+      background:#0f1115;
+      color:#fff;
+      font-family: Arial, sans-serif;
+      margin:0; padding:0;
+    }
+    .container { max-width:1100px; margin:0 auto; padding:20px; }
+    header { margin-bottom:16px; font-size:24px; font-weight:bold; }
+    .card { background:#171a21; padding:12px; border-radius:10px; }
+    .player video, .player iframe {
+      width:100%; height:480px;
+      border-radius:10px; background:#000; border:none;
+    }
+    .player-info { margin-top:10px; }
+    .recs { margin-top:20px; }
+    .recs-grid {
+      display:grid; grid-template-columns: repeat(5,1fr);
+      gap:12px;
+    }
+    .rec {
+      background:#1f222a; border-radius:8px; overflow:hidden;
+      cursor:pointer; transition:0.2s;
+    }
+    .rec:hover { transform:scale(1.03); }
+    .thumb { width:100%; aspect-ratio:16/9; object-fit:cover; }
+    .rec-title { padding:8px; font-size:14px; font-weight:bold; }
+    .controls { text-align:center; margin-top:12px; }
+    .btn {
+      background:#4da3ff; color:#000; border:none;
+      padding:10px 14px; border-radius:20px; cursor:pointer;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header id="siteName">Nama Website</header>
+
+    <!-- PLAYER -->
+    <section class="card player">
+      <!-- video html5 -->
+      <video id="videoPlayer" controls preload="metadata" poster="">
+        <source id="videoSource" src="" type="video/mp4" />
+        Browser tidak mendukung video HTML5.
+      </video>
+      <!-- iframe doodstream -->
+      <iframe id="iframePlayer" src="" style="display:none"></iframe>
+
+      <div class="player-info">
+        <div class="player-title" id="currentTitle">Memuat...</div>
+        <div id="currentMeta"></div>
+      </div>
+    </section>
+
+    <!-- REKOMENDASI -->
+    <section class="recs">
+      <h2>Rekomendasi Video</h2>
+      <div id="recsGrid" class="recs-grid"></div>
+      <div class="controls">
+        <button id="loadMoreBtn" class="btn">Tampilkan pilihan video lainnya</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const JSON_URL = 'videos.json';
+    const PAGE_SIZE = 10;
+    let allVideos = [];
+    let pageIndex = 0;
+    let currentVideo = null;
+
+    const siteName = document.getElementById('siteName');
+    const videoEl = document.getElementById('videoPlayer');
+    const videoSource = document.getElementById('videoSource');
+    const iframeEl = document.getElementById('iframePlayer');
+    const currentTitle = document.getElementById('currentTitle');
+    const currentMeta = document.getElementById('currentMeta');
+    const recsGrid = document.getElementById('recsGrid');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    function setPlayer(video){
+      currentVideo = video;
+      if(video.embed){ 
+        // gunakan doodstream
+        iframeEl.src = video.embed;
+        iframeEl.style.display = "block";
+        videoEl.style.display = "none";
+      } else if(video.src){
+        // gunakan video mp4
+        videoSource.src = video.src;
+        videoEl.poster = video.poster || video.thumbnail || '';
+        videoEl.load();
+        iframeEl.style.display = "none";
+        videoEl.style.display = "block";
+      }
+      currentTitle.textContent = video.title || "Tanpa Judul";
+      currentMeta.textContent = video.author ? "Publisher: " + video.author : "";
+    }
+
+    function renderRecommendations(videosPage){
+      recsGrid.innerHTML = "";
+      for(const v of videosPage){
+        const item = document.createElement("div");
+        item.className = "rec";
+        item.innerHTML = `
+          <img class="thumb" src="${v.thumbnail || ''}" alt="">
+          <div class="rec-title">${v.title || 'Tanpa Judul'}</div>
+        `;
+        item.onclick = ()=> setPlayer(v);
+        recsGrid.appendChild(item);
+      }
+    }
+
+    function getPage(items, page, size){
+      const start = (page*size) % items.length;
+      const end = start + size;
+      if(end <= items.length) return items.slice(start,end);
+      return items.slice(start).concat(items.slice(0,end-items.length));
+    }
+
+    async function init(){
+      try{
+        const res = await fetch(JSON_URL);
+        const data = await res.json();
+        siteName.textContent = data.siteName || "Nama Website";
+        allVideos = data.videos || [];
+        if(allVideos.length===0) return;
+        // tampilkan video pertama
+        setPlayer(allVideos[0]);
+        // rekomendasi awal
+        renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
+        loadMoreBtn.onclick = ()=>{
+          pageIndex++;
+          renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
+        };
+      }catch(e){ console.error(e); }
+    }
+    init();
+  </script>
+</body>
+</html>
