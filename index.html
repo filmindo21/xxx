@@ -29,8 +29,9 @@
       cursor:pointer; transition:0.2s;
     }
     .rec:hover { transform:scale(1.03); }
-    .thumb { width:100%; aspect-ratio:16/9; object-fit:cover; }
-    .rec-title { padding:8px; font-size:14px; font-weight:bold; }
+    .thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+    /* Disembunyikan agar hanya poster yang tampil */
+    .rec-title { display:none; }
     .controls { text-align:center; margin-top:12px; }
     .btn {
       background:#4da3ff; color:#000; border:none;
