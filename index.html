@@ -141,12 +141,12 @@
         allVideos = data.videos || [];
         if(allVideos.length===0) return;
 
-        // --- ambil video terbaru (posisi terakhir array) ---
-        const latestVideo = allVideos[allVideos.length - 1];
+        // --- ambil video terbaru (posisi awal array) ---
+        const latestVideo = allVideos[0];
         setPlayer(latestVideo);
 
-        // rekomendasi awal (semua termasuk yang terbaru)
-        renderRecommendations(getPage(allVideos, pageIndex, PAGE_SIZE));
+        // rekomendasi awal (mulai dari video ke-2 supaya tidak dobel)
+        renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
 
         loadMoreBtn.onclick = ()=>{
           pageIndex++;
