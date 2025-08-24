@@ -42,7 +42,6 @@
       border-radius:6px;
     }
 
-    /* Disembunyikan agar hanya poster yang tampil */
     .rec-title { display:none; }
     .controls { text-align:center; margin-top:12px; }
     .btn {
@@ -58,12 +57,10 @@
 
     <!-- PLAYER -->
     <section class="card player">
-      <!-- video html5 -->
       <video id="videoPlayer" controls preload="metadata" poster="">
         <source id="videoSource" src="" type="video/mp4" />
         Browser tidak mendukung video HTML5.
       </video>
-      <!-- iframe doodstream -->
       <iframe id="iframePlayer" src="" style="display:none"></iframe>
 
       <div class="player-info">
@@ -101,12 +98,10 @@
     function setPlayer(video){
       currentVideo = video;
       if(video.embed){ 
-        // gunakan doodstream
         iframeEl.src = video.embed;
         iframeEl.style.display = "block";
         videoEl.style.display = "none";
       } else if(video.src){
-        // gunakan video mp4
         videoSource.src = video.src;
         videoEl.poster = video.poster || video.thumbnail || '';
         videoEl.load();
@@ -145,13 +140,17 @@
         siteName.textContent = data.siteName || "Nama Website";
         allVideos = data.videos || [];
         if(allVideos.length===0) return;
-        // tampilkan video pertama
-        setPlayer(allVideos[0]);
-        // rekomendasi awal
-        renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
+
+        // --- ambil video terbaru (posisi terakhir array) ---
+        const latestVideo = allVideos[allVideos.length - 1];
+        setPlayer(latestVideo);
+
+        // rekomendasi awal (semua termasuk yang terbaru)
+        renderRecommendations(getPage(allVideos, pageIndex, PAGE_SIZE));
+
         loadMoreBtn.onclick = ()=>{
           pageIndex++;
-          renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
+          renderRecommendations(getPage(allVideos, pageIndex, PAGE_SIZE));
         };
       }catch(e){ console.error(e); }
     }
