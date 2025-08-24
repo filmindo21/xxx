@@ -1,0 +1,82 @@
+{
+  "siteName": "Nama Website",
+  "videos": [
+    {
+      "id": "v001",
+      "title": "Film dari DoodStream",
+      "embed": "https://dood.yt/e/XXXXXXXX",
+      "thumbnail": "https://cdn.example.com/thumbs/dood.jpg",
+      "author": "Uploader A"
+    },
+    {
+      "id": "v002",
+      "title": "Film MP4 Lokal",
+      "src": "https://cdn.example.com/videos/video1.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/video1.jpg",
+      "author": "Uploader B"
+    },
+    {
+      "id": "v003",
+      "title": "Video Sample 1",
+      "src": "https://cdn.example.com/videos/sample1.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample1.jpg",
+      "author": "Studio C"
+    },
+    {
+      "id": "v004",
+      "title": "Video Sample 2",
+      "src": "https://cdn.example.com/videos/sample2.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample2.jpg",
+      "author": "Studio D"
+    },
+    {
+      "id": "v005",
+      "title": "Video Sample 3",
+      "src": "https://cdn.example.com/videos/sample3.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample3.jpg",
+      "author": "Studio E"
+    },
+    {
+      "id": "v006",
+      "title": "Video Sample 4",
+      "src": "https://cdn.example.com/videos/sample4.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample4.jpg",
+      "author": "Studio F"
+    },
+    {
+      "id": "v007",
+      "title": "Video Sample 5",
+      "src": "https://cdn.example.com/videos/sample5.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample5.jpg",
+      "author": "Studio G"
+    },
+    {
+      "id": "v008",
+      "title": "Video Sample 6",
+      "src": "https://cdn.example.com/videos/sample6.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample6.jpg",
+      "author": "Studio H"
+    },
+    {
+      "id": "v009",
+      "title": "Video Sample 7",
+      "src": "https://cdn.example.com/videos/sample7.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample7.jpg",
+      "author": "Studio I"
+    },
+    {
+      "id": "v010",
+      "title": "Video Sample 8",
+      "src": "https://cdn.example.com/videos/sample8.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample8.jpg",
+      "author": "Studio J"
+    },
+    {
+      "id": "v011",
+      "title": "Video Sample 9",
+      "src": "https://cdn.example.com/videos/sample9.mp4",
+      "thumbnail": "https://cdn.example.com/thumbs/sample9.jpg",
+      "author": "Studio K"
+    }
+  ]
+}
