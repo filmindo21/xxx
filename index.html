@@ -49,6 +49,18 @@
       padding:10px 14px; border-radius:20px; cursor:pointer;
       font-weight:bold;
     }
+
+    .share {
+      margin-top:12px;
+    }
+    .share a, .share button {
+      margin-right:8px;
+      background:#4da3ff; color:#000;
+      border:none; padding:8px 12px;
+      border-radius:6px; cursor:pointer;
+      font-weight:bold; text-decoration:none;
+      display:inline-block;
+    }
   </style>
 </head>
 <body>
@@ -66,6 +78,10 @@
       <div class="player-info">
         <div class="player-title" id="currentTitle">Memuat...</div>
         <div id="currentMeta"></div>
+        <div class="share">
+          <a id="shareTwitter" target="_blank">Share ke Twitter</a>
+          <button id="copyLink">Copy Link</button>
+        </div>
       </div>
     </section>
 
@@ -80,6 +96,7 @@
   </div>
 
   <script>
+    // Ganti dengan URL lengkap jika di GitHub Pages
     const JSON_URL = 'video.json';
     const PAGE_SIZE = 10;
     let allVideos = [];
@@ -94,6 +111,8 @@
     const currentMeta = document.getElementById('currentMeta');
     const recsGrid = document.getElementById('recsGrid');
     const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const shareBtn = document.getElementById("shareTwitter");
+    const copyBtn = document.getElementById("copyLink");
 
     function setPlayer(video){
       currentVideo = video;
@@ -110,6 +129,23 @@
       }
       currentTitle.textContent = video.title || "Tanpa Judul";
       currentMeta.textContent = video.author ? "Publisher: " + video.author : "";
+
+      // --- update URL agar unik ---
+      const index = allVideos.indexOf(video);
+      if(index >= 0){
+        const newUrl = window.location.pathname + "?id=" + index;
+        window.history.replaceState({}, "", newUrl);
+
+        // --- update link share Twitter ---
+        shareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent("Nonton: "+(video.title||"Video"))}&url=${encodeURIComponent(window.location.href)}`;
+
+        // --- tombol copy link ---
+        copyBtn.onclick = ()=>{
+          navigator.clipboard.writeText(window.location.href)
+            .then(()=> alert("Link berhasil dicopy!"))
+            .catch(()=> alert("Gagal copy link"));
+        }
+      }
     }
 
     function renderRecommendations(videosPage){
@@ -141,16 +177,20 @@
         allVideos = data.videos || [];
         if(allVideos.length===0) return;
 
-        // --- ambil video terbaru (posisi awal array) ---
-        const latestVideo = allVideos[0];
-        setPlayer(latestVideo);
+        // --- cek apakah ada ?id di URL ---
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get("id"));
+        let firstVideo = allVideos[0];
+        if(!isNaN(id) && allVideos[id]) firstVideo = allVideos[id];
 
-        // rekomendasi awal (mulai dari video ke-2 supaya tidak dobel)
-        renderRecommendations(getPage(allVideos.slice(1), pageIndex, PAGE_SIZE));
+        setPlayer(firstVideo);
+
+        // rekomendasi awal (kecuali video yg sedang ditonton)
+        renderRecommendations(getPage(allVideos.filter(v=>v!==firstVideo), pageIndex, PAGE_SIZE));
 
         loadMoreBtn.onclick = ()=>{
           pageIndex++;
-          renderRecommendations(getPage(allVideos, pageIndex, PAGE_SIZE));
+          renderRecommendations(getPage(allVideos.filter(v=>v!==currentVideo), pageIndex, PAGE_SIZE));
         };
       }catch(e){ console.error(e); }
     }
